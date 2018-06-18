@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
@@ -17,8 +18,8 @@ public class PlayerController : MonoBehaviour {
 
         // Update is called once per frame
         void Update() {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
+            if (Input.GetKeyDown(KeyCode.Space)&&
+           this.rigid2D.velocity.y==0 ) {
                 this.rigid2D.AddForce(transform.up * this.jumpForce);
             }
 
@@ -39,6 +40,17 @@ public class PlayerController : MonoBehaviour {
             transform.localScale = new Vector3(key, 1, 1);
         }
 
+        if(transform.position.y < -10)
+        {
+            SceneManager.LoadScene("GameScene");
+        }
+
         this.animator.speed = speedx / 2.0f;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("ゴール");
+        SceneManager.LoadScene("ClearScene");
     }
+}
